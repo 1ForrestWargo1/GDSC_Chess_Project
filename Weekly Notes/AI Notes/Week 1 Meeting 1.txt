@@ -5,7 +5,10 @@ Each turn can be seen as a user making a move to maximize the evaluation functio
 In terms of a search tree, this means starting at a given node and choosing the children nodes with the best (or worst) scores.
 
 It's important to remember that chess is a zero-sum game, so the maximum of the player = the minimum off the opponent
-Since some are 
+Since some moves are terrible, the search tree will produce nodes with terrible moves. 
+
+The alpha-beta pruning ignores the crappy moves.
+https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
 
 
 A) Interface
