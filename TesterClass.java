@@ -10,7 +10,7 @@ public class TesterClass implements chessBoard{
             return boards;
         }
         boards[0] = new TesterClass(this.val -1);
-        boards[0] = new TesterClass(this.val -2);
+        boards[1] = new TesterClass(this.val -2);
         return boards;
     }
 	public int evaluateScore(){
