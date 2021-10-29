@@ -7,7 +7,7 @@ public class TesterClass implements chessBoard{
     public chessBoard[] getBoards(){
         chessBoard[] boards = new chessBoard[2];
         if(this.val <= 0){
-            return boards;
+            return null;
         }
         boards[0] = new TesterClass(this.val -1);
         boards[1] = new TesterClass(this.val -2);
