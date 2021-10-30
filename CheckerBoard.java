@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class CheckerBoard implements Board {
     private Men[][] board;
-    private Boolean blackTurn;
+    private boolean blackTurn;
     private int moveCount;
 
     public CheckerBoard() {
@@ -35,12 +35,26 @@ public class CheckerBoard implements Board {
 
     }
 
-    public ArrayList<CheckerBoard> getAllBoards() { // returns a list of all possible subsequent board states
+    public ArrayList<Board> getAllBoards() { // returns a list of all possible subsequent board states
         // creates and returns new ArrayList of CheckerBoards
+        ArrayList<CheckerBoard> boards = new ArrayList<CheckerBoard>();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; i++) {
+                if (board[i][j] != null) {
+                    CheckerBoard case1 = move(true);
+                    CheckerBoard case2 = move(false);
+
+                    if (case1 != null) boards.add(case1);
+                    if (case2 != null) boards.add(case2);
+                }
+            }
+        }
+
     }
 
-    public CheckerBoard move(String direction) { // used in getAllBoards; returns null if not valid
+    public CheckerBoard move(boolean toRight) { // used in getAllBoards; returns null if not valid
         // creates new checkerboard
+    
     }
 
     public void makeMove(Board nextBoard) { // actually makes the move on this. board
@@ -48,7 +62,7 @@ public class CheckerBoard implements Board {
     }
 
 
-    public Boolean isOver() { // checks if game is over
+    public boolean isOver() { // checks if game is over
 
     }
 
