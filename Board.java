@@ -1,5 +1,7 @@
+import java.util.ArrayList;
+
 public interface Board {
 
-    public Board[] getAllBoards(); 
+    public ArrayList<Board> getAllBoards(); 
     
 }
