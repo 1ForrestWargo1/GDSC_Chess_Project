@@ -48,7 +48,8 @@ public class CheckerBoard implements Board {
     public void setMen(Man[][] board) { // sets pieces to the same positions the board passed in
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; i < board[i].length; j++) {
-                this.board[i][j] = board[i][j];
+                if (board[i][j] != null) this.board[i][j] = new Man(board[i][j].isBlack);
+                else this.board[i][j] = null;
             }
         }
     }
