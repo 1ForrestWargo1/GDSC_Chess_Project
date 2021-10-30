@@ -1,26 +1,26 @@
 import java.util.ArrayList;
 
 public class CheckerBoard implements Board {
-    private Men[][] board;
+    private Man[][] board;
     private boolean blackTurn;
     private int moveCount;
 
     public CheckerBoard() {
-        board = new Men[8][8];
+        board = new Man[8][8];
         blackTurn = true;
         moveCount = 0;
         setMen();
     }
 
     public CheckerBoard(Boolean turn, int moveCount) {
-        board = new Men[8][8];
+        board = new Man[8][8];
         blackTurn = turn;
         this.moveCount = moveCount;
         setMen();
     }
 
-    public CheckerBoard(Men[][] board, Boolean turn, int moveCount) {
-        board = new Men[8][8];
+    public CheckerBoard(Man[][] board, Boolean turn, int moveCount) {
+        board = new Man[8][8];
         blackTurn = turn;
         this.moveCount = moveCount;
         
@@ -31,7 +31,7 @@ public class CheckerBoard implements Board {
        
     }
 
-    public void setMen(Men[][] board) { // sets pieces to the same positions the board passed in
+    public void setMen(Man[][] board) { // sets pieces to the same positions the board passed in
 
     }
 
