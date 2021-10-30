@@ -35,6 +35,14 @@ public class CheckerBoard implements Board {
                }
            }
        }
+
+       for (int i = 5; i < 8; i++) {
+           for(int j = 0; j < board[i].length; j++) {
+                if ((i + j + 1) % 2 == 0) {
+                    board[i][j] = new Man(true);
+                }
+           }
+       }
     }
 
     public void setMen(Man[][] board) { // sets pieces to the same positions the board passed in
@@ -62,7 +70,7 @@ public class CheckerBoard implements Board {
 
     }
 
-    public CheckerBoard move(int[] directions) { // used in getAllBoards; returns null if not valid
+    public CheckerBoard move(int[] directions, int x, int y) { // used in getAllBoards; returns null if not valid
         // creates new checkerboard
     
     }
@@ -73,7 +81,20 @@ public class CheckerBoard implements Board {
 
 
     public boolean isOver() { // checks if game is over
-
+        int blackCount = 0;
+        int whiteCount = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; i < board[i].length; j++) {
+                if (board[i][j] != null) {
+                    if (board[i][j].isBlack) {
+                        blackCount++;
+                    } else {
+                        whiteCount++;
+                    }
+                } 
+            }
+        }
+        return blackCount == 0 || whiteCount == 0;
     }
 
 
