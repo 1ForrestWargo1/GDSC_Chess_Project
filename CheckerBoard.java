@@ -58,12 +58,14 @@ public class CheckerBoard implements Board {
         ArrayList<CheckerBoard> boards = new ArrayList<CheckerBoard>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; i++) {
-                if (board[i][j] != null) {
-                    CheckerBoard case1 = move(true);
-                    CheckerBoard case2 = move(false);
-
-                    if (case1 != null) boards.add(case1);
-                    if (case2 != null) boards.add(case2);
+                Man currentMan = board[i][j];
+                if (currentMan != null) {
+                    for (int z = 0; z < currentMan.directions.length; z++) {
+                        if (currentMan.directions[z] != null) {
+                            CheckerBoard result = this.move(currentMan.directions[z], j, i);
+                            if (result != null) boards.add(result);
+                        }
+                    }
                 }
             }
         }
@@ -114,6 +116,23 @@ public class CheckerBoard implements Board {
             }
             System.out.println();
         }
+    }
+
+    public int evaluate() {
+        int blackCount = 0;
+        int whiteCount = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; i < board[i].length; j++) {
+                if (board[i][j] != null) {
+                    if (board[i][j].isBlack) {
+                        blackCount++;
+                    } else {
+                        whiteCount++;
+                    }
+                } 
+            }
+        }
+        return blackCount - whiteCount;
     }
 
 
