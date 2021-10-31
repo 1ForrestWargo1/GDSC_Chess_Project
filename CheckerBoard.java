@@ -24,7 +24,7 @@ public class CheckerBoard implements Board {
         blackTurn = turn;
         this.moveCount = moveCount;
         
-        setMen();
+        setMen(board);
     }
 
     public void setMen() { // sets pieces in default positions
