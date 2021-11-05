@@ -56,14 +56,14 @@ public class CheckerBoard implements Board {
 
     public ArrayList<Board> getAllBoards() { // returns a list of all possible subsequent board states
         // creates and returns new ArrayList of CheckerBoards
-        ArrayList<Board> boards = new ArrayList<Board>();
+        ArrayList<CheckerBoard> boards = new ArrayList<CheckerBoard>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; i++) {
                 Man currentMan = board[i][j];
                 if (currentMan != null) {
                     for (int z = 0; z < currentMan.directions.length; z++) {
                         if (currentMan.directions[z] != null) {
-                            Board result = (Board)(this.move(currentMan.directions[z], j, i));
+                            CheckerBoard result = this.move(currentMan.directions[z], j, i);
                             if (result != null) boards.add(result);
                         }
                     }
@@ -71,55 +71,55 @@ public class CheckerBoard implements Board {
             }
         }
 
-        return boards;
-
     }
 
-    public CheckerBoard move(int[] directions, int x, int y) { // used in getAllBoards; returns null if not valid
+    public CheckerBoard move(int[] directions, int i, int j) { // used in getAllBoards; returns null if not valid
         Man[][] currentBoard = board.clone(); // create a copy of current chess board
 		
 		Man man = currentBoard[i][j];
 		
+		int y;
+		int x;
+		
 		if(man.isBlack()) {
-			 y = directions[0];
-			 x = directions[1];
+			 x = directions[0];
+			 y = directions[1];
 		} else{
-			 y = -directions[0];
-			 x = -directions[1];
+			 x = -directions[0];
+			 y = -directions[1];
 		}
 
-		if (man.isBlack()) { //black checker (at top?)
-			if (currentBoard[i + x][j + y] == null) {
-				if (i + x >= 0 && i + x <= 7 && j + y >= 0 && j + y <= 7) {
+	    	if (i + y >= 0 && i + y <= 7 && j + x >= 0 && j + x <= 7) {
+			return null;
+		}
+	    
+		if (!man.isBlack()) { //white checker (at top)
+			if (currentBoard[i + y][j + x] == null) {
 					currentBoard[i][j] = null;
-					currentBoard[i + x][j + y] = new Man(true); // move black checker
-				}
-			} else if (!currentBoard[i + x][j + y].isBlack()) {
-				if (i + x + x >= 0 && i + x + x <= 7 && j + y + y >= 0 && j + y + y <= 7) {
+					currentBoard[i + y][j + x] = new Man(false); // move white checker
+			} else if (currentBoard[i + y][j + x].isBlack()) {
+				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7) {
 					currentBoard[i][j] = null;
-					currentBoard[i + x][j + y] = null; // kill the white checker
-					currentBoard[i + x + x][j + y + y] = new Man(true); // move black checker
+					currentBoard[i + y][j + x] = null; // kill the black checker
+					currentBoard[i + y + y][j + x + x] = new Man(false); // move white checker
 				}
 			} else{
-				//can't move, since another black checker is at the position.
+				return null;
 			}
-		} else { //white checker (at bottom?)
-			if (currentBoard[i + x][j + y] == null) {
-				if (i + x >= 0 && i + x <= 7 && j + y >= 0 && j + y <= 7) {
+		} else { //black checker (at bottom)
+			if (currentBoard[i + y][j + x] == null) {
 					currentBoard[i][j] = null;
-					currentBoard[i + x][j + y] = new Man(false); // move white checker
-				}
-			} else if (currentBoard[i + x][j + y].isBlack()) {
-				if (i + x + x >= 0 && i + x + x <= 7 && j + y + y >= 0 && j + y + y <= 7) {
+					currentBoard[i + y][j + x] = new Man(true); // move black checker
+			} else if (currentBoard[i + y][j + x].isBlack()) {
+				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7) {
 					currentBoard[i][j] = null;
-					currentBoard[i + x][j + y] = null; // kill the black checker
-					currentBoard[i + x + x][j + y + y] = new Man(false); // move white checker
+					currentBoard[i + y][j + x] = null; // kill the white checker
+					currentBoard[i + y + y][j + x + x] = new Man(true); // move black checker
 				}
 			} else{
-				//can't move, since another white checker is at the position.
+				return null;
 			}
 		}
-		
 		return new CheckerBoard(currentBoard, (blackTurn) ? false:true, moveCount+1);
     }
 
