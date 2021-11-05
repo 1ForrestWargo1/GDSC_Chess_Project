@@ -74,8 +74,54 @@ public class CheckerBoard implements Board {
     }
 
     public CheckerBoard move(int[] directions, int x, int y) { // used in getAllBoards; returns null if not valid
-        // creates new checkerboard
-    
+        Man[][] currentBoard = board.clone(); // create a copy of current chess board
+		
+		Man man = currentBoard[i][j];
+		
+		int y;
+		int x;
+		
+		if(man.isBlack()) {
+			 y = directions[0];
+			 x = directions[1];
+		} else{
+			 y = -directions[0];
+			 x = -directions[1];
+		}
+
+		if (man.isBlack()) { //black checker (at top?)
+			if (currentBoard[i + x][j + y] == null) {
+				if (i + x >= 0 && i + x <= 7 && j + y >= 0 && j + y <= 7) {
+					currentBoard[i][j] = null;
+					currentBoard[i + x][j + y] = new Man(true); // move black checker
+				}
+			} else if (!currentBoard[i + x][j + y].isBlack()) {
+				if (i + x + x >= 0 && i + x + x <= 7 && j + y + y >= 0 && j + y + y <= 7) {
+					currentBoard[i][j] = null;
+					currentBoard[i + x][j + y] = null; // kill the white checker
+					currentBoard[i + x + x][j + y + y] = new Man(true); // move black checker
+				}
+			} else{
+				//can't move, since another black checker is at the position.
+			}
+		} else { //white checker (at bottom?)
+			if (currentBoard[i + x][j + y] == null) {
+				if (i + x >= 0 && i + x <= 7 && j + y >= 0 && j + y <= 7) {
+					currentBoard[i][j] = null;
+					currentBoard[i + x][j + y] = new Man(false); // move white checker
+				}
+			} else if (currentBoard[i + x][j + y].isBlack()) {
+				if (i + x + x >= 0 && i + x + x <= 7 && j + y + y >= 0 && j + y + y <= 7) {
+					currentBoard[i][j] = null;
+					currentBoard[i + x][j + y] = null; // kill the black checker
+					currentBoard[i + x + x][j + y + y] = new Man(false); // move white checker
+				}
+			} else{
+				//can't move, since another white checker is at the position.
+			}
+		}
+		
+		return new CheckerBoard(currentBoard, (blackTurn) ? false:true, moveCount+1);
     }
 
     public void makeMove(CheckerBoard nextBoard) { // actually makes the move on this. board
