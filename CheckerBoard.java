@@ -56,20 +56,22 @@ public class CheckerBoard implements Board {
 
     public ArrayList<Board> getAllBoards() { // returns a list of all possible subsequent board states
         // creates and returns new ArrayList of CheckerBoards
-        ArrayList<CheckerBoard> boards = new ArrayList<CheckerBoard>();
+        ArrayList<Board> boards = new ArrayList<Board>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; i++) {
                 Man currentMan = board[i][j];
                 if (currentMan != null) {
                     for (int z = 0; z < currentMan.directions.length; z++) {
                         if (currentMan.directions[z] != null) {
-                            CheckerBoard result = this.move(currentMan.directions[z], j, i);
+                            Board result = (Board) this.move(currentMan.directions[z], j, i);
                             if (result != null) boards.add(result);
                         }
                     }
                 }
             }
         }
+
+        return boards;
 
     }
 
