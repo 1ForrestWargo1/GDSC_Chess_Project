@@ -84,7 +84,7 @@ public class CheckerBoard implements Board {
 			 y = -directions[1];
 		}
 
-	    	if (i + y >= 0 && i + y <= 7 && j + x >= 0 && j + x <= 7) {
+	    if (!(i + y >= 0 && i + y <= 7 && j + x >= 0 && j + x <= 7)) {
 			return null;
 		}
 	    
@@ -115,7 +115,7 @@ public class CheckerBoard implements Board {
 				return null;
 			}
 		}
-		return new CheckerBoard(currentBoard, (blackTurn) ? false:true, moveCount+1);
+		return new CheckerBoard(currentBoard, !blackTurn, moveCount+1);
     }
 
     public void makeMove(CheckerBoard nextBoard) { // actually makes the move on this. board
@@ -164,7 +164,7 @@ public class CheckerBoard implements Board {
         }
     }
 
-    public int evaluate() { // evaluates the board for the minimax algorithm
+    public int evaluateBoard() { // evaluates the board for the minimax algorithm
         int blackCount = 0;
         int whiteCount = 0;
         for (int i = 0; i < board.length; i++) {
@@ -186,7 +186,8 @@ public class CheckerBoard implements Board {
         board.printBoard();
         System.out.println();
 
-        // board.move({})
+        int[] directions = new int[]{1, 1};
+        System.out.println(board.move(directions, 5, 0));
     }
 
 }
