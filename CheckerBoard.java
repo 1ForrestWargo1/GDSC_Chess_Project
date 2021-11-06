@@ -13,11 +13,13 @@ public class CheckerBoard implements Board {
     }
 
     public CheckerBoard(Man[][] board, Boolean turn, int moveCount) { // constructor which makes a new board from a pre-existing board
-        board = new Man[8][8];
+        this.board = new Man[8][8];
+        // if (board == null) System.out.println("board is orignally null");
         blackTurn = turn;
         this.moveCount = moveCount;
         
         setMen(board);
+        // if (board == null) System.out.println("board is orignally null");
     }
 
     public void setMen() { // sets pieces in default positions
@@ -40,9 +42,9 @@ public class CheckerBoard implements Board {
 
     public void setMen(Man[][] board) { // sets pieces to the same positions the board passed in
         for (int i = 0; i < board.length; i++) {
-            for (int j = 0; i < board[i].length; j++) {
+            for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] != null) this.board[i][j] = new Man(board[i][j].isBlack);
-                else this.board[i][j] = null;
+                // else this.board[i][j] = null;
             }
         }
     }
@@ -69,8 +71,9 @@ public class CheckerBoard implements Board {
     }
 
     public CheckerBoard move(int[] directions, int i, int j) { // used in getAllBoards and returns the board result from the "move" inputted; returns null if not valid
-        Man[][] currentBoard = board.clone(); // create a copy of current chess board
-		
+        CheckerBoard result = new CheckerBoard(this.board, this.blackTurn, this.moveCount);
+        Man[][] currentBoard = result.board; // create a copy of current chess board
+		if (result.board == null) System.out.println("constructor failed");
 		Man man = currentBoard[i][j];
 		
 		int y;
@@ -98,7 +101,8 @@ public class CheckerBoard implements Board {
 					currentBoard[i + y][j + x] = null; // kill the black checker
 					currentBoard[i + y + y][j + x + x] = new Man(false); // move white checker
 				}
-			} else{
+			} else {
+                System.out.println("move is inavlid");
 				return null;
 			}
 		} else { //black checker (at bottom)
@@ -111,7 +115,8 @@ public class CheckerBoard implements Board {
 					currentBoard[i + y][j + x] = null; // kill the white checker
 					currentBoard[i + y + y][j + x + x] = new Man(true); // move black checker
 				}
-			} else{
+			} else {
+                System.out.println("move is inavlid");
 				return null;
 			}
 		}
@@ -164,6 +169,25 @@ public class CheckerBoard implements Board {
         }
     }
 
+    public String toString() {
+        String result = "";
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                Man currentPiece = board[i][j];
+                if (currentPiece == null) {
+                    result += 0 + " ";
+                } else {
+                    if (currentPiece.isBlack) {
+                        result += 1 + " ";
+                    } else {
+                        result += 2 + " ";
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     public int evaluateBoard() { // evaluates the board for the minimax algorithm
         int blackCount = 0;
         int whiteCount = 0;
@@ -187,7 +211,12 @@ public class CheckerBoard implements Board {
         System.out.println();
 
         int[] directions = new int[]{1, 1};
-        System.out.println(board.move(directions, 5, 0));
+        CheckerBoard newBoard = board.move(directions, 5, 0);
+        if (newBoard.board != null) {
+            newBoard.printBoard();  
+        } else {
+            System.out.println("Board is null");
+        }
     }
 
 }
