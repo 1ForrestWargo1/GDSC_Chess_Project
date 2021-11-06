@@ -101,7 +101,7 @@ public class CheckerBoard implements Board {
 					currentBoard[i + y][j + x] = currentBoard[i][j]; // move white checker
                     currentBoard[i][j] = null;
 			} else if (currentBoard[i + y][j + x].isBlack()) {
-				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7) {
+				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7 && currentBoard[i + y + y][j + x + x] == null) {
 					currentBoard[i + y][j + x] = null; // kill the black checker
 					currentBoard[i + y + y][j + x + x] = currentBoard[i][j]; // move white checker
                     currentBoard[i][j] = null;
@@ -115,7 +115,7 @@ public class CheckerBoard implements Board {
 					currentBoard[i + y][j + x] = currentBoard[i][j]; // move black checker
                     currentBoard[i][j] = null;
 			} else if (!currentBoard[i + y][j + x].isBlack()) {
-				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7) {
+				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7 && currentBoard[i + y + y][j + x + x] == null) {
 					currentBoard[i + y][j + x] = null; // kill the white checker
 					currentBoard[i + y + y][j + x + x] = currentBoard[i][j];
                     currentBoard[i][j] = null; // move black checker
