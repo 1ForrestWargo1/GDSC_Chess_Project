@@ -5,8 +5,14 @@ public class Piece {
     // members
     private boolean isBlack;
     private int type;
-    private int[][] possibleDirections; // array of possible future moves
-    private int[][] legalDirections;
+    private boolean hasMoved;
+    private int[][] moves; // array of possible future moves, size based on piece type
+
+    // constructors
+    public Piece(boolean isBlack, int type) {
+        this.isBlack = isBlack;
+    }
+
 
     // methods 
     // getters
@@ -15,11 +21,15 @@ public class Piece {
     }
 
     public int[][] getDirections() {
-        return legalDirections;
+        return moves;
     }
 
     public int whatType() {
         return type;
+    }
+
+    public boolean hasMoved() {
+        return hasMoved;
     }
 
     // setter
@@ -37,6 +47,14 @@ public class Piece {
         // different rules based on chess piece type 
 
         // update the legal directions array
+        for (list_x: possibleDirections[]) {
+            for (next_y: list_x) {
+                
+                if (!isLegalMove(chessBoard, x, y, next_x, next_y)) {
+                    // delete
+                } 
+            }
+        }
     }
 
     // check if one move is legal or not
