@@ -34,7 +34,7 @@ public class CheckerBoard implements Board {
        for (int i = 5; i < 8; i++) {
            for(int j = 0; j < board[i].length; j++) {
                 if ((i + j + 1) % 2 == 0) {
-                    board[i][j] = new Man(true);
+                    board[i][j] = new Man(true); // bottom side pieces are black and go first
                 }
            }
        }
@@ -55,11 +55,11 @@ public class CheckerBoard implements Board {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 Man currentMan = board[j][i]; // pointer to coordinate
-                if (currentMan != null && currentMan.isBlack == blackTurn) { // if piece exists and the piece is for the correct turn
-                    for (int z = 0; z < currentMan.directions.length; z++) {
-                        if (currentMan.directions[z] != null) {
-                            Board result = (Board) this.move(currentMan.directions[z], j, i);
-                            if (result != null) boards.add(result);
+                if (currentMan != null && currentMan.isBlack == blackTurn) { // if piece exists at coordinate and the piece is for the correct turn
+                    for (int z = 0; z < currentMan.directions.length; z++) { 
+                        if (currentMan.directions[z] != null) {  // for every element in the direction array 
+                            Board result = (Board) this.move(currentMan.directions[z], j, i); // simulate the move 
+                            if (result != null) boards.add(result); // add it to the array 
                         }
                     }
                 }
@@ -77,7 +77,7 @@ public class CheckerBoard implements Board {
     public CheckerBoard move(int[] directions, int i, int j) { // used in getAllBoards and returns the board result from the "move" inputted; returns null if not valid
         CheckerBoard result = new CheckerBoard(this.board, !this.blackTurn, moveCount+1);
         Man[][] currentBoard = result.board; // create a copy of current chess board
-		if (result.board == null) System.out.println("constructor failed");
+		// if (result.board == null) System.out.println("constructor failed");
 		Man man = currentBoard[i][j];
 		
 		int y;
@@ -208,9 +208,9 @@ public class CheckerBoard implements Board {
                 } 
             }
         }
-        if (blackCount == 0) return -13;
+        if (blackCount == 0) return -13; // if the game is won return 13 or -13
         else if (whiteCount == 0) return 13;
-        return blackCount - whiteCount;
+        return blackCount - whiteCount; // otherwise return the difference in the number of pieces
     }
 
     public static void main(String args[]) {
