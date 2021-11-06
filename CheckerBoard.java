@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class CheckerBoard implements Board {
     private Man[][] board; // 2D array of board
@@ -100,13 +101,13 @@ public class CheckerBoard implements Board {
 					currentBoard[i + y][j + x] = currentBoard[i][j]; // move white checker
                     currentBoard[i][j] = null;
 			} else if (currentBoard[i + y][j + x].isBlack()) {
-				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7) {
+				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7 && currentBoard[i + y + y][j + x + x] == null) {
 					currentBoard[i + y][j + x] = null; // kill the black checker
 					currentBoard[i + y + y][j + x + x] = currentBoard[i][j]; // move white checker
                     currentBoard[i][j] = null;
 				}
 			} else {
-                System.out.println("move is inavlid");
+                // System.out.println("move is inavlid");
 				return null;
 			}
 		} else { //black checker (at bottom)
@@ -114,13 +115,13 @@ public class CheckerBoard implements Board {
 					currentBoard[i + y][j + x] = currentBoard[i][j]; // move black checker
                     currentBoard[i][j] = null;
 			} else if (!currentBoard[i + y][j + x].isBlack()) {
-				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7) {
+				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7 && currentBoard[i + y + y][j + x + x] == null) {
 					currentBoard[i + y][j + x] = null; // kill the white checker
 					currentBoard[i + y + y][j + x + x] = currentBoard[i][j];
                     currentBoard[i][j] = null; // move black checker
 				}
 			} else {
-                System.out.println("move is inavlid");
+                // System.out.println("move is inavlid");
 				return null;
 			}
 		}
@@ -213,58 +214,43 @@ public class CheckerBoard implements Board {
         return blackCount - whiteCount; // otherwise return the difference in the number of pieces
     }
 
+    public void runGame() {
+        Scanner scn = new Scanner(System.in);
+        String answer = "yes";
+
+        int choiceIndex = 0;
+
+        while(answer.equals("yes")) {
+            printBoard();
+            System.out.println();
+
+            ArrayList<Board> allPossibleNext = getAllBoards();
+            System.out.println("All possible boards: ");
+            for (int i = 0; i < allPossibleNext.size(); i++) {
+                CheckerBoard current = (CheckerBoard)(allPossibleNext.get(i));
+                System.out.println(i+":");
+                current.printBoard();
+                System.out.println();
+            }
+            System.out.print("Choose next board");
+            choiceIndex = scn.nextInt();
+            System.out.println();
+            makeMove((CheckerBoard)(allPossibleNext.get(choiceIndex)));
+            System.out.println("New board: ");
+            printBoard();
+            System.out.println();
+
+            // System.out.print("Would you like to make another move? (enter yes to continue, no to terminate program) ");
+            // answer = scn.nextLine();
+            
+        }
+        System.out.println("program ended");
+        scn.close();   
+    }
+
     public static void main(String args[]) {
         CheckerBoard board = new CheckerBoard();
-        board.printBoard();
-        System.out.println();
-
-        // int[] directions = new int[]{1, -1};
-        // CheckerBoard newBoard = board.move(directions, 5, 0);
-        // board.makeMove(newBoard);
-        // board.printBoard();
-        // System.out.println();
-
-        // newBoard = board.move(new int[]{-1, -1}, 2, 3);
-        // newBoard.printBoard();
-        // System.out.println();
-
-        // board.makeMove(newBoard);
-        // newBoard = board.move(directions, 4, 1);
-        // newBoard.printBoard();
-        // System.out.println();
-
-        // board.makeMove(newBoard);
-
-
-        ArrayList<Board> allPossibleNext = board.getAllBoards();
-        System.out.println("All possible boards: ");
-        for (int i = 0; i < allPossibleNext.size(); i++) {
-            CheckerBoard current = (CheckerBoard)(allPossibleNext.get(i));
-            current.printBoard();
-            System.out.println();
-        }
-
-        board.makeMove((CheckerBoard)(allPossibleNext.get(0)));
-        System.out.println("New board: ");
-        board.printBoard();
-        System.out.println();
-
-        allPossibleNext = board.getAllBoards();
-
-        System.out.println("All possible boards: ");
-        for (int i = 0; i < allPossibleNext.size(); i++) {
-            CheckerBoard current = (CheckerBoard)(allPossibleNext.get(i));
-            current.printBoard();
-            System.out.println();
-        }
-
-        
-
-        // if (newBoard != null && newBoard.board != null) {
-        //     newBoard.printBoard();  
-        // } else {
-        //     System.out.println("Board is null");
-        // }
+        board.runGame();
     }
 
 }
