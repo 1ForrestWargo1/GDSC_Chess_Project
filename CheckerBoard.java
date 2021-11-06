@@ -53,9 +53,9 @@ public class CheckerBoard implements Board {
         // creates and returns new ArrayList of CheckerBoards
         ArrayList<Board> boards = new ArrayList<Board>();
         for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; i++) {
-                Man currentMan = board[i][j];
-                if (currentMan != null) {
+            for (int j = 0; j < board[i].length; j++) {
+                Man currentMan = board[j][i]; // pointer to coordinate
+                if (currentMan != null && currentMan.isBlack == blackTurn) { // if piece exists and the piece is for the correct turn
                     for (int z = 0; z < currentMan.directions.length; z++) {
                         if (currentMan.directions[z] != null) {
                             Board result = (Board) this.move(currentMan.directions[z], j, i);
@@ -70,8 +70,12 @@ public class CheckerBoard implements Board {
 
     }
 
+    // public CheckerBoard movev2(int[] directions, int i, int j) {
+
+    // }
+
     public CheckerBoard move(int[] directions, int i, int j) { // used in getAllBoards and returns the board result from the "move" inputted; returns null if not valid
-        CheckerBoard result = new CheckerBoard(this.board, this.blackTurn, this.moveCount);
+        CheckerBoard result = new CheckerBoard(this.board, !this.blackTurn, moveCount+1);
         Man[][] currentBoard = result.board; // create a copy of current chess board
 		if (result.board == null) System.out.println("constructor failed");
 		Man man = currentBoard[i][j];
@@ -80,11 +84,11 @@ public class CheckerBoard implements Board {
 		int x;
 		
 		if(man.isBlack()) {
-			 x = directions[0];
-			 y = directions[1];
+			 y = directions[0];
+			 x = directions[1];
 		} else {
-			 x = -directions[0];
-			 y = -directions[1];
+			 y = -directions[0];
+			 x = -directions[1];
 		}
 
 	    if (!(i + y >= 0 && i + y <= 7 && j + x >= 0 && j + x <= 7)) {
@@ -93,13 +97,13 @@ public class CheckerBoard implements Board {
 	    
 		if (!man.isBlack()) { //white checker (at top)
 			if (currentBoard[i + y][j + x] == null) {
-					currentBoard[i][j] = null;
-					currentBoard[i + y][j + x] = new Man(false); // move white checker
+					currentBoard[i + y][j + x] = currentBoard[i][j]; // move white checker
+                    currentBoard[i][j] = null;
 			} else if (currentBoard[i + y][j + x].isBlack()) {
 				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7) {
-					currentBoard[i][j] = null;
 					currentBoard[i + y][j + x] = null; // kill the black checker
-					currentBoard[i + y + y][j + x + x] = new Man(false); // move white checker
+					currentBoard[i + y + y][j + x + x] = currentBoard[i][j]; // move white checker
+                    currentBoard[i][j] = null;
 				}
 			} else {
                 System.out.println("move is inavlid");
@@ -107,24 +111,26 @@ public class CheckerBoard implements Board {
 			}
 		} else { //black checker (at bottom)
 			if (currentBoard[i + y][j + x] == null) {
-					currentBoard[i][j] = null;
-					currentBoard[i + y][j + x] = new Man(true); // move black checker
-			} else if (currentBoard[i + y][j + x].isBlack()) {
+					currentBoard[i + y][j + x] = currentBoard[i][j]; // move black checker
+                    currentBoard[i][j] = null;
+			} else if (!currentBoard[i + y][j + x].isBlack()) {
 				if (i + y + y >= 0 && i + y + y <= 7 && j + x + x >= 0 && j + x + x <= 7) {
-					currentBoard[i][j] = null;
 					currentBoard[i + y][j + x] = null; // kill the white checker
-					currentBoard[i + y + y][j + x + x] = new Man(true); // move black checker
+					currentBoard[i + y + y][j + x + x] = currentBoard[i][j];
+                    currentBoard[i][j] = null; // move black checker
 				}
 			} else {
                 System.out.println("move is inavlid");
 				return null;
 			}
 		}
-		return new CheckerBoard(currentBoard, !blackTurn, moveCount+1);
+		return result;
     }
 
     public void makeMove(CheckerBoard nextBoard) { // actually makes the move on this. board
         board = nextBoard.getBoard();
+        blackTurn = !blackTurn;
+        moveCount++;
     }
 
 
@@ -202,6 +208,8 @@ public class CheckerBoard implements Board {
                 } 
             }
         }
+        if (blackCount == 0) return -13;
+        else if (whiteCount == 0) return 13;
         return blackCount - whiteCount;
     }
 
@@ -210,13 +218,53 @@ public class CheckerBoard implements Board {
         board.printBoard();
         System.out.println();
 
-        int[] directions = new int[]{1, 1};
-        CheckerBoard newBoard = board.move(directions, 5, 0);
-        if (newBoard.board != null) {
-            newBoard.printBoard();  
-        } else {
-            System.out.println("Board is null");
+        // int[] directions = new int[]{1, -1};
+        // CheckerBoard newBoard = board.move(directions, 5, 0);
+        // board.makeMove(newBoard);
+        // board.printBoard();
+        // System.out.println();
+
+        // newBoard = board.move(new int[]{-1, -1}, 2, 3);
+        // newBoard.printBoard();
+        // System.out.println();
+
+        // board.makeMove(newBoard);
+        // newBoard = board.move(directions, 4, 1);
+        // newBoard.printBoard();
+        // System.out.println();
+
+        // board.makeMove(newBoard);
+
+
+        ArrayList<Board> allPossibleNext = board.getAllBoards();
+        System.out.println("All possible boards: ");
+        for (int i = 0; i < allPossibleNext.size(); i++) {
+            CheckerBoard current = (CheckerBoard)(allPossibleNext.get(i));
+            current.printBoard();
+            System.out.println();
         }
+
+        board.makeMove((CheckerBoard)(allPossibleNext.get(0)));
+        System.out.println("New board: ");
+        board.printBoard();
+        System.out.println();
+
+        allPossibleNext = board.getAllBoards();
+
+        System.out.println("All possible boards: ");
+        for (int i = 0; i < allPossibleNext.size(); i++) {
+            CheckerBoard current = (CheckerBoard)(allPossibleNext.get(i));
+            current.printBoard();
+            System.out.println();
+        }
+
+        
+
+        // if (newBoard != null && newBoard.board != null) {
+        //     newBoard.printBoard();  
+        // } else {
+        //     System.out.println("Board is null");
+        // }
     }
 
 }
