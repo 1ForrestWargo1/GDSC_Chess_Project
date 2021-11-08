@@ -5,7 +5,7 @@ import numpy
 
 from warp_crop_scale import warp_crop_scale
 
-frame = cv2.imread('aruco-img/2.JPG')
+frame = cv2.imread('aruco-img/6.png')
 
 #Load the dictionary that was used to generate the markers.
 dictionary = aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
@@ -40,10 +40,10 @@ points_for_warp = [br, bl, tr, tl]
 
 print(points_for_warp)
 
-for i in points_for_warp:
-    frame = cv2.circle(frame, i, radius=2, color=(0, 0, 255), thickness=20)
+# for i in points_for_warp:
+#     frame = cv2.circle(frame, i, radius=2, color=(0, 0, 255), thickness=20)
 
-cv2.imshow("result", frame);
-cv2.waitKey();
+# cv2.imshow("result", frame);
+# cv2.waitKey();
 
 warp_crop_scale(frame, points_for_warp)

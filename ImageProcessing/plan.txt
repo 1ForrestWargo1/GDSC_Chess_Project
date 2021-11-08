@@ -1,0 +1,7 @@
+split square cropped image into 16 chunks
+
+np array of 64x64 images
+
+flatten function to create one dimensional vectors?
+
+ISSUE: aruco rotates points based on marker rotation, need math to determine top-right, bottom-left  point of a marker

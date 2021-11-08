@@ -33,15 +33,17 @@ def warp_crop_scale(image, points_for_warp):
     cv2.imshow("normalized", img_scaled)
 
     # show each of the split images after a keypress
-    row_number = 0
-    col_number = 0
-    for row in images_separated:
-        for img in row:
-            cv2.imshow("Row: " + str(row_number) + ", Col: " + str(col_number), img)
-            cv2.waitKey(0)
-            col_number += 1
-        row_number += 1
-        col_number = 0
+    # row_number = 0
+    # col_number = 0
+    # for row in images_separated:
+    #     for img in row:
+    #         cv2.imshow("Row: " + str(row_number) + ", Col: " + str(col_number), img)
+    #         cv2.waitKey(0)
+    #         col_number += 1
+    #     row_number += 1
+    #     col_number = 0
 
+    cv2.waitKey()
+    
     print('done')
     return
