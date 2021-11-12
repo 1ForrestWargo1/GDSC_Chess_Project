@@ -25,7 +25,7 @@ public class Bishop implements Piece {
             updateScope(startingSquare.left.up, x - 1, y - 1);
         } else if (y > 4 && x > 4) { // if the path is down and to the right
             updateScope(startingSquare.right.down, x + 1, y + 1);
-        } else if (y > 4 && x > 4) { // if the path is down and to the left
+        } else if (y > 4 && x < 4) { // if the path is down and to the left
             updateScope(startingSquare.left.down, x - 1, y + 1);
         } else { // if the starting square is the piece's starting position
             updateScope(startingSquare.right.up, x + 1, y - 1); // call in directions
