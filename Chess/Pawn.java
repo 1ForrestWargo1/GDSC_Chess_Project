@@ -6,14 +6,11 @@ public class Pawn implements Piece {
     private boolean isWhite;
     private boolean hasMoved;
     private boolean hasJustMoved; // for en passant
-    private int type;
     private Square[][] scope;
-    private ArrayList<Square> moves;
 
     // constructor
     public Pawn(boolean isWhite, Square startingSquare) {
         this.isWhite = isWhite;
-        this.type = 1;
         this.hasMoved = false;
         this.hasJustMoved = false;
         this.scope = new Square[3][3];
@@ -31,30 +28,41 @@ public class Pawn implements Piece {
                 if (y + 1 <= 2) {
                     this.updateScope(startingSquare.up, x, y + 1);
                 }
-            } else {
-
             }
         }
     }
 
     private ArrayList<Square> getMoves() {
         ArrayList<Square> squares = new ArrayList<Square>();
-        for (int i = 0; i < scope.length; i++) {
-            for (int j = 0; j < scope[i].length; j++) {
-                Square current = scope[i][j];
-                if (current != null && !(i == 2 && j == 0) && !(i == 2 && j == 2)) {
-                    squares.add(current);
-                }
-            }
+
+        if (!scope[1][0].isEmpty() && scope[1][0].piece().isWhite() != this.isWhite) { // if pawn can capture a piece
+            squares.add(scope[1][0]);
+        } else if (!scope[2][0].isEmpty() && scope[2][0].piece().getType() == 1
+                && ((Pawn) scope[2][0].piece()).hasJustMoved()) { // case of en passant
+            squares.add(scope[1][0]);
         }
 
+        if (!scope[1][2].isEmpty() && scope[1][2].piece().isWhite() != this.isWhite) { // same logic as above
+            squares.add(scope[1][2]);
+        } else if (!scope[2][2].isEmpty() && scope[2][2].piece().getType() == 1
+                && ((Pawn) scope[2][2].piece()).hasJustMoved()) {
+            squares.add(scope[1][2]);
+        }
+
+        if (scope[1][1].isEmpty()) { // if the space in front of pawn is empty
+            squares.add(scope[1][1]); // add the move
+            if (!hasMoved && scope[0][2].isEmpty()) { // if the pawn has not moved and the space two squares in front is
+                                                      // open
+                squares.add(scope[0][1]);
+            }
+        }
         return squares;
     }
 
+    // moves the piece to the square in the parameter (assume move is valid)
     public void makeMove(Square move) {
-        scope[2][1] = null;
         move.setPiece(this);
-        if (move.down.piece() != null && !move.down.piece().equals(this)) {
+        if (!move.down.isEmpty()) {
             move.down.setPiece(null);
         }
         updateScope(move, 1, 2);
@@ -65,8 +73,12 @@ public class Pawn implements Piece {
         return isWhite;
     }
 
-    public int type() {
-        return type;
+    public int getType() {
+        return 1;
+    }
+
+    public boolean hasJustMoved() {
+        return hasJustMoved;
     }
 
 }
