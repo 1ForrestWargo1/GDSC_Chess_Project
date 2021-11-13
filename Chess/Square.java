@@ -26,4 +26,38 @@ public class Square {
         this.piece = piece;
     }
 
+    // Used by the pawns to return the direction of the method relative to the pawn.
+    // Relative reffering to the directions being reversed for black pieces
+    public Square getRight(boolean isWhite) {
+        if (isWhite) {
+            return right;
+        } else {
+            return left;
+        }
+    }
+
+    public Square getLeft(boolean isWhite) {
+        if (isWhite) {
+            return left;
+        } else {
+            return right;
+        }
+    }
+
+    public Square getUp(boolean isWhite) {
+        if (isWhite) {
+            return up;
+        } else {
+            return down;
+        }
+    }
+
+    public Square getDown(boolean isWhite) {
+        if (isWhite) {
+            return down;
+        } else {
+            return up;
+        }
+    }
+
 }

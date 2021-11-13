@@ -38,34 +38,34 @@ public class Bishop implements Piece {
 
     // Method returns an array of all the squares at which the piece can
     // potentially move. Uses the same recursive logic as update scope
-    private ArrayList<Square> getMoves(Square startingSquare, int x, int y, ArrayList<Square> squares) {
-        if (startingSquare == null) {
+    private ArrayList<Square> getMoves(int x, int y, ArrayList<Square> squares) {
+        if (scope[y][x] == null) {
             return squares;
         } else if (y > 4 && x > 4) {
-            if (startingSquare.isEmpty()) { // if there is not a piece at the current square which is "in the way"
-                updateScope(startingSquare.right.up, x + 1, y - 1);
+            if (scope[y][x].isEmpty()) { // if there is not a piece at the current square which is "in the way"
+                getMoves(x + 1, y - 1, squares);
             }
         } else if (y > 4 && x < 4) {
-            if (startingSquare.isEmpty()) {
-                updateScope(startingSquare.left.up, x - 1, y - 1);
+            if (scope[y][x].isEmpty()) {
+                getMoves(x - 1, y - 1, squares);
             }
         } else if (y < 4 && x > 4) {
-            if (startingSquare.isEmpty()) {
-                updateScope(startingSquare.right.down, x + 1, y + 1);
+            if (scope[y][x].isEmpty()) {
+                getMoves(x + 1, y + 1, squares);
             }
         } else if (y < 4 && x > 4) {
-            if (startingSquare.isEmpty()) {
-                updateScope(startingSquare.left.down, x - 1, y + 1);
+            if (scope[y][x].isEmpty()) {
+                getMoves(x - 1, y + 1, squares);
             }
         } else {
-            updateScope(startingSquare.right.up, x + 1, y - 1);
-            updateScope(startingSquare.left.up, x - 1, y - 1);
-            updateScope(startingSquare.right.down, x + 1, y + 1);
-            updateScope(startingSquare.left.down, x - 1, y + 1);
+            getMoves(x + 1, y - 1, squares);
+            getMoves(x - 1, y - 1, squares);
+            getMoves(x + 1, y + 1, squares);
+            getMoves(x - 1, y + 1, squares);
         }
-        if (startingSquare.isEmpty() | startingSquare.piece().isWhite() != this.isWhite) { // if the square does not
-                                                                                           // contain an ally piece
-            squares.add(startingSquare);
+        if (scope[y][x].isEmpty() | scope[y][x].piece().isWhite() != this.isWhite) { // if the square does not
+                                                                                     // contain an ally piece
+            squares.add(scope[y][x]);
         }
         return squares;
     }
