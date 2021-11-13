@@ -41,7 +41,7 @@ public class Bishop implements Piece {
     private ArrayList<Square> getMoves(int x, int y, ArrayList<Square> squares) {
         if (scope[y][x] == null) {
             return squares;
-        } else if (y > 4 && x > 4) {
+        } else if (y < 4 && x > 4) {
             if (scope[y][x].isEmpty()) { // if there is not a piece at the current square which is "in the way"
                 getMoves(x + 1, y - 1, squares);
             }
@@ -49,11 +49,11 @@ public class Bishop implements Piece {
             if (scope[y][x].isEmpty()) {
                 getMoves(x - 1, y - 1, squares);
             }
-        } else if (y < 4 && x > 4) {
+        } else if (y > 4 && x > 4) {
             if (scope[y][x].isEmpty()) {
                 getMoves(x + 1, y + 1, squares);
             }
-        } else if (y < 4 && x > 4) {
+        } else if (y < 4 && x < 4) {
             if (scope[y][x].isEmpty()) {
                 getMoves(x - 1, y + 1, squares);
             }
@@ -63,8 +63,8 @@ public class Bishop implements Piece {
             getMoves(x + 1, y + 1, squares);
             getMoves(x - 1, y + 1, squares);
         }
-        if (scope[y][x].isEmpty() | scope[y][x].piece().isWhite() != this.isWhite) { // if the square does not
-                                                                                     // contain an ally piece
+        if (scope[y][x].isEmpty() | scope[y][x].piece().isWhite() != this.isWhite) { // if the square does not contain
+                                                                                     // an ally piece
             squares.add(scope[y][x]);
         }
         return squares;
