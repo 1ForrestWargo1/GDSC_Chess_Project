@@ -63,8 +63,8 @@ public class Bishop implements Piece {
             updateScope(startingSquare.right.down, x + 1, y + 1);
             updateScope(startingSquare.left.down, x - 1, y + 1);
         }
-        if (startingSquare.isEmpty() | startingSquare.piece().equals(this)
-                | startingSquare.piece().isWhite() != this.isWhite) { // if the square does not contain an ally piece
+        if (startingSquare.isEmpty() | startingSquare.piece().isWhite() != this.isWhite) { // if the square does not
+                                                                                           // contain an ally piece
             squares.add(startingSquare);
         }
         return squares;
