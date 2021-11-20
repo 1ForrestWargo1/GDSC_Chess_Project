@@ -43,7 +43,13 @@ public class Queen implements Piece {
 		}
 		scope[y][x] = startingSquare; // set the current square to the corresponding square on the board and scope
 	}
-
+	
+    // Method returns an array of all the squares at which the piece can
+    // potentially move. Uses the same recursive logic as update scope
+    public ArrayList<Square> getMoves() { // method arranged as such to comply with interface
+        return getMoves(4, 4, new ArrayList<Square>()); // returns squares piece can move to (including illegal moves)
+    }
+    
 	// Method returns an array of all the squares at which the piece can
 	// potentially move. Uses the same recursive logic as update scope
 	private ArrayList<Square> getMoves(int x, int y, ArrayList<Square> squares) {
@@ -96,10 +102,10 @@ public class Queen implements Piece {
 
 	// moves the piece from the starting square to end square
 	// assumes move is valid
-	public void makeMove(Square startingSquare, Square endSquare) {
-		endSquare.setPiece(startingSquare.piece());
-		startingSquare.setPiece(null);
-		updateScope(endSquare, 4, 4);
+	public void makeMove(Square endSquare) {
+		endSquare.setPiece(scope[4][4].piece());
+        scope[4][4].setPiece(null);
+		updateScope(endSquare, 4, 4); // or getMoves(4, 4, endSquare)
 	}
 
 	// getters and setters
@@ -108,6 +114,7 @@ public class Queen implements Piece {
 	}
 
 	public int getType() {
+		// FIXME
 		return 1;
 	}
 
