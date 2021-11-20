@@ -25,7 +25,12 @@ public class King implements Piece {
         scope[2][2] = scope[2][1].right;
     }
 
-    public ArrayList<Square> getMoves(ArrayList<Square> squares) {
+    public ArrayList<Square> getMoves() {
+        return getMoves(1, 1, new ArrayList<Square>());
+    }
+
+    public ArrayList<Square> getMoves(int x, int y, ArrayList<Square> squares) {
+
         return squares;
     }
 

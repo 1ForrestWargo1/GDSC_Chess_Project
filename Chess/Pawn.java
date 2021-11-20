@@ -32,7 +32,7 @@ public class Pawn implements Piece {
         }
     }
 
-    private ArrayList<Square> getMoves() {
+    public ArrayList<Square> getMoves() {
         ArrayList<Square> squares = new ArrayList<Square>();
 
         if (!scope[1][0].isEmpty() && scope[1][0].piece().isWhite() != this.isWhite) { // if pawn can capture a piece

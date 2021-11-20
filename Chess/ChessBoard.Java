@@ -3,6 +3,13 @@ public ChessBoard implements Board {
     private int moveCount;
     private Square[][] board;
     
+    public ArrayList<Board> getAllBoards() {
+
+    }
+
+    public int evaluateBoard(); {
+        
+    }
     
 
 
