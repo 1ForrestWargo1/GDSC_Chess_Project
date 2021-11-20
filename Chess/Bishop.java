@@ -39,7 +39,7 @@ public class Bishop implements Piece {
     // Method returns an array of all the squares at which the piece can
     // potentially move. Uses the same recursive logic as update scope
     public ArrayList<Square> getMoves() { // method arranged as such to comply with interface
-        return getMoves(4, 4, new ArrayList<Square>());
+        return getMoves(4, 4, new ArrayList<Square>()); // returns squares piece can move to (including illegal moves)
     }
 
     public ArrayList<Square> getMoves(int x, int y, ArrayList<Square> squares) {

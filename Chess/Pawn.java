@@ -23,8 +23,8 @@ public class Pawn implements Piece {
         if (startingSquare != null) {
             if (startingSquare.piece().equals(this)) {
                 scope[y][x] = startingSquare;
-                scope[y][x - 1] = startingSquare.left;
-                scope[y][x + 1] = startingSquare.right;
+                scope[y][x - 1] = startingSquare.getLeft(isWhite);
+                scope[y][x + 1] = startingSquare.getRight(isWhite);
                 if (y + 1 <= 2) {
                     this.updateScope(startingSquare.up, x, y + 1);
                 }
@@ -32,7 +32,7 @@ public class Pawn implements Piece {
         }
     }
 
-    public ArrayList<Square> getMoves() {
+    public ArrayList<Square> getMoves() { // returns squares piece can move to (including illegal moves)
         ArrayList<Square> squares = new ArrayList<Square>();
 
         if (!scope[1][0].isEmpty() && scope[1][0].piece().isWhite() != this.isWhite) { // if pawn can capture a piece

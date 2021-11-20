@@ -3,11 +3,14 @@ package Chess;
 import java.util.ArrayList;
 
 public class King implements Piece {
+    private boolean hasMoved;
     private boolean isWhite;
     private Square[][] scope;
 
     public King(boolean isWhite, Square startingSquare) {
+        this.hasMoved = false;
         scope = new Square[3][3];
+
     }
 
     private void updateScope(Square startingSquare) {
@@ -25,16 +28,25 @@ public class King implements Piece {
         scope[2][2] = scope[2][1].right;
     }
 
-    public ArrayList<Square> getMoves() {
-        return getMoves(1, 1, new ArrayList<Square>());
-    }
-
-    public ArrayList<Square> getMoves(int x, int y, ArrayList<Square> squares) {
-
+    public ArrayList<Square> getMoves() { // can return moves which put king in check
+        ArrayList<Square> squares = new ArrayList<Square>();
+        for (int i = 0; i < scope.length; i++) {
+            for (int j = 0; j < scope[i].length; j++) {
+                Square currentSquare = scope[i][j];
+                if (currentSquare.isEmpty() | currentSquare.piece().isWhite() != isWhite) {
+                    squares.add(currentSquare);
+                }
+            }
+        }
+        if (!this.hasMoved && scope[1][2].right != null && scope[1][2].right.piece().getType() == 5
+                && scope[1][2].right.piece().isWhite() == isWhite && !((Rook) scope[1][2].right.piece()).hasMoved()) {
+            squares.add(scope[1][2]);
+        }
         return squares;
     }
 
     public void makeMove(Square endSquare) {
+
         endSquare.setPiece(this);
         scope[1][1].setPiece(null);
         updateScope(endSquare);
