@@ -76,9 +76,9 @@ public class Bishop implements Piece {
 
     // moves the piece from the starting square to end square
     // assumes move is valid
-    public void makeMove(Square startingSquare, Square endSquare) {
-        endSquare.setPiece(startingSquare.piece());
-        startingSquare.setPiece(null);
+    public void makeMove(Square endSquare) {
+        endSquare.setPiece(scope[4][4].piece());
+        scope[4][4].setPiece(null);
         updateScope(endSquare, 4, 4);
     }
 

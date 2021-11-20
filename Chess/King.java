@@ -34,8 +34,9 @@ public class King implements Piece {
         return squares;
     }
 
-    public void makeMove() {
-
+    public void makeMove(Square endSquare) {
+        endSquare.setPiece(this);
+        scope[1][1].setPiece(null);
     }
 
     public int getType() {

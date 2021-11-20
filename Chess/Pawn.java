@@ -38,7 +38,7 @@ public class Pawn implements Piece {
         if (!scope[1][0].isEmpty() && scope[1][0].piece().isWhite() != this.isWhite) { // if pawn can capture a piece
             squares.add(scope[1][0]);
         } else if (!scope[2][0].isEmpty() && scope[2][0].piece().getType() == 1
-                && ((Pawn) scope[2][0].piece()).hasJustMoved()) { // case of en passant
+                && ((Pawn) scope[2][0].piece()).hasJustMoved()) { // if en passant is valid
             squares.add(scope[1][0]);
         }
 
@@ -62,6 +62,7 @@ public class Pawn implements Piece {
     // moves the piece to the square in the parameter (assume move is valid)
     public void makeMove(Square move) {
         move.setPiece(this);
+        scope[2][1].setPiece(null);
         if (!move.down.isEmpty()) {
             move.down.setPiece(null);
         }

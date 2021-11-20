@@ -10,4 +10,6 @@ public interface Piece {
 
     public ArrayList<Square> getMoves();
 
+    public void makeMove(Square endSquare);
+
 }
