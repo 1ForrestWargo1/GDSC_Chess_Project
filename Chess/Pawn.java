@@ -23,8 +23,8 @@ public class Pawn implements Piece {
         if (startingSquare != null) {
             if (startingSquare.piece().equals(this)) {
                 scope[y][x] = startingSquare;
-                scope[y][x - 1] = startingSquare.left;
-                scope[y][x + 1] = startingSquare.right;
+                scope[y][x - 1] = startingSquare.getLeft(isWhite);
+                scope[y][x + 1] = startingSquare.getRight(isWhite);
                 if (y + 1 <= 2) {
                     this.updateScope(startingSquare.up, x, y + 1);
                 }
