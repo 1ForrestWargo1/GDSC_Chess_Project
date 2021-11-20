@@ -1,10 +1,10 @@
 package Chess;
 
 public class Square {
-    public Square up;
-    public Square down;
-    public Square left;
-    public Square right;
+    public final Square up;
+    public final Square down;
+    public final Square left;
+    public final Square right;
     private Piece piece;
 
     public Square(Square up, Square down, Square left, Square right) {

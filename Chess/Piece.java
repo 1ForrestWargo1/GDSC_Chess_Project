@@ -12,4 +12,6 @@ public interface Piece {
 
     public void makeMove(Square endSquare);
 
+    public Piece createCopy();
+
 }
