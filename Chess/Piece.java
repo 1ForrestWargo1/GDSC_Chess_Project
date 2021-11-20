@@ -12,6 +12,7 @@ public interface Piece {
 
     public void makeMove(Square endSquare);
 
-    public Piece createCopy();
+    // To Do: refactor pieces and board to include this method
+    // public Piece createCopy(int x, int y, ChessBoard);
 
 }

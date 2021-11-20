@@ -91,6 +91,10 @@ public class Bishop implements Piece {
         return 1;
     }
 
+    // public Piece createCopy() {
+    // Bishop result = new Bishop(this.isWhite, scope[4][4]);
+    // }
+
     public void printScope() {
         for (int i = 0; i < scope.length; i++) {
             for (int j = 0; j < scope[i].length; j++) {

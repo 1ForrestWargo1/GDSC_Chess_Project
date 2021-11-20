@@ -82,4 +82,8 @@ public class Pawn implements Piece {
         return hasJustMoved;
     }
 
+    // public Piece createCopy() {
+
+    // }
+
 }

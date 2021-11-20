@@ -118,6 +118,10 @@ public class Queen implements Piece {
 		return 8;
 	}
 
+	// public Piece createCopy() {
+
+	// }
+
 	public void printScope() {
 		for (int i = 0; i < scope.length; i++) {
 			for (int j = 0; j < scope[i].length; j++) {

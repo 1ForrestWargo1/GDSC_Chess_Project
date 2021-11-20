@@ -71,4 +71,8 @@ public class King implements Piece {
         return isWhite;
     }
 
+    // public Piece createCopy() {
+
+    // }
+
 }
