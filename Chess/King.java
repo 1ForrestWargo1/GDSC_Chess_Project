@@ -38,14 +38,25 @@ public class King implements Piece {
                 }
             }
         }
-        if (!this.hasMoved && scope[1][2].right != null && scope[1][2].right.piece().getType() == 5
-                && scope[1][2].right.piece().isWhite() == isWhite && !((Rook) scope[1][2].right.piece()).hasMoved()) {
-            squares.add(scope[1][2]);
+        if (scope[1][2] != null && scope[1][2].isEmpty() && scope[1][2].right != null && scope[1][2].right.isEmpty()) {
+            if (!this.hasMoved && scope[1][2].right.right != null && scope[1][2].right.right.piece().getType() == 5
+                    && scope[1][2].right.right.piece().isWhite() == isWhite
+                    && !((Rook) scope[1][2].right.right.piece()).hasMoved()) {
+                squares.add(scope[1][2].right.right);
+            }
         }
         return squares;
     }
 
-    public void makeMove(Square endSquare) {
+    public void makeMove(Square endSquare) { // assumes move is valid
+        if (!endSquare.isEmpty() && endSquare.piece().getType() == 5) {
+            endSquare.left.setPiece(this);
+            endSquare.left.left.setPiece(endSquare.piece());
+            scope[1][1].setPiece(null);
+            endSquare.setPiece(null);
+            updateScope(endSquare.right);
+            return;
+        }
 
         endSquare.setPiece(this);
         scope[1][1].setPiece(null);

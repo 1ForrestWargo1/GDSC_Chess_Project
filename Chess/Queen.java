@@ -43,68 +43,68 @@ public class Queen implements Piece {
 		}
 		scope[y][x] = startingSquare; // set the current square to the corresponding square on the board and scope
 	}
-	
-    // Method returns an array of all the squares at which the piece can
-    // potentially move. Uses the same recursive logic as update scope
-    public ArrayList<Square> getMoves() { // method arranged as such to comply with interface
-        return getMoves(4, 4, new ArrayList<Square>()); // returns squares piece can move to (including illegal moves)
-    }
-    
+
+	// Method returns an array of all the squares at which the piece can
+	// potentially move. Uses the same recursive logic as update scope
+	public ArrayList<Square> getMoves() { // method arranged as such to comply with interface
+		return getMoves(4, 4, new ArrayList<Square>()); // returns squares piece can move to (including illegal moves)
+	}
+
 	// Method returns an array of all the squares at which the piece can
 	// potentially move. Uses the same recursive logic as update scope
 	private ArrayList<Square> getMoves(int x, int y, ArrayList<Square> squares) {
 		if (scope[y][x] == null) {
-            return squares;
-        } else if (y < 4 && x > 4) {
-            if (scope[y][x].isEmpty()) { // if there is not a piece at the current square which is "in the way"
-                getMoves(x + 1, y - 1, squares);
-            }
-        } else if (y < 4 && x < 4) {
-            if (scope[y][x].isEmpty()) {
-                getMoves(x - 1, y - 1, squares);
-            }
-        } else if (y > 4 && x > 4) {
-            if (scope[y][x].isEmpty()) {
-                getMoves(x + 1, y + 1, squares);
-            }
-        } else if (y > 4 && x < 4) {
-            if (scope[y][x].isEmpty()) {
-                getMoves(x - 1, y + 1, squares);
-            }
-        } else if (y == 4 && x > 4) { 
-        	if (scope[y][x].isEmpty()) {
-                getMoves(x + 1, y, squares);
-            }
-		} else if (y == 4 && x < 4) { 
+			return squares;
+		} else if (y < 4 && x > 4) {
+			if (scope[y][x].isEmpty()) { // if there is not a piece at the current square which is "in the way"
+				getMoves(x + 1, y - 1, squares);
+			}
+		} else if (y < 4 && x < 4) {
 			if (scope[y][x].isEmpty()) {
-                getMoves(x - 1, y, squares);
-            }
-		} else if (y < 4 && x == 4) { 
+				getMoves(x - 1, y - 1, squares);
+			}
+		} else if (y > 4 && x > 4) {
 			if (scope[y][x].isEmpty()) {
-                getMoves(x, y - 1, squares);
-            }
-		} else if (y > 4 && x == 4) { 
+				getMoves(x + 1, y + 1, squares);
+			}
+		} else if (y > 4 && x < 4) {
 			if (scope[y][x].isEmpty()) {
-                getMoves(x, y + 1, squares);
-            }
-		}else {
-            getMoves(x + 1, y - 1, squares);
-            getMoves(x - 1, y - 1, squares);
-            getMoves(x + 1, y + 1, squares);
-            getMoves(x - 1, y + 1, squares);
-        }
-        if (scope[y][x].isEmpty() | scope[y][x].piece().isWhite() != this.isWhite) { // if the square does not
-                                                                                     // contain an ally piece
-            squares.add(scope[y][x]);
-        }
-        return squares;
+				getMoves(x - 1, y + 1, squares);
+			}
+		} else if (y == 4 && x > 4) {
+			if (scope[y][x].isEmpty()) {
+				getMoves(x + 1, y, squares);
+			}
+		} else if (y == 4 && x < 4) {
+			if (scope[y][x].isEmpty()) {
+				getMoves(x - 1, y, squares);
+			}
+		} else if (y < 4 && x == 4) {
+			if (scope[y][x].isEmpty()) {
+				getMoves(x, y - 1, squares);
+			}
+		} else if (y > 4 && x == 4) {
+			if (scope[y][x].isEmpty()) {
+				getMoves(x, y + 1, squares);
+			}
+		} else {
+			getMoves(x + 1, y - 1, squares);
+			getMoves(x - 1, y - 1, squares);
+			getMoves(x + 1, y + 1, squares);
+			getMoves(x - 1, y + 1, squares);
+		}
+		if (scope[y][x].isEmpty() | scope[y][x].piece().isWhite() != this.isWhite) { // if the square does not
+																						// contain an ally piece
+			squares.add(scope[y][x]);
+		}
+		return squares;
 	}
 
 	// moves the piece from the starting square to end square
 	// assumes move is valid
 	public void makeMove(Square endSquare) {
 		endSquare.setPiece(scope[4][4].piece());
-        scope[4][4].setPiece(null);
+		scope[4][4].setPiece(null);
 		updateScope(endSquare, 4, 4); // or getMoves(4, 4, endSquare)
 	}
 
@@ -115,7 +115,7 @@ public class Queen implements Piece {
 
 	public int getType() {
 		// FIXME
-		return 1;
+		return 8;
 	}
 
 	public void printScope() {
