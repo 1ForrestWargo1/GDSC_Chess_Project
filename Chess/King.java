@@ -10,7 +10,7 @@ public class King implements Piece {
         scope = new Square[3][3];
     }
 
-    public void updateScope(Square startingSquare) {
+    private void updateScope(Square startingSquare) {
         startingSquare.setPiece(this);
         scope[1][1] = startingSquare;
         scope[1][2] = scope[1][1].right;
@@ -37,6 +37,7 @@ public class King implements Piece {
     public void makeMove(Square endSquare) {
         endSquare.setPiece(this);
         scope[1][1].setPiece(null);
+        updateScope(endSquare);
     }
 
     public int getType() {

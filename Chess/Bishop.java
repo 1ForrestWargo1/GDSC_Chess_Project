@@ -38,7 +38,7 @@ public class Bishop implements Piece {
 
     // Method returns an array of all the squares at which the piece can
     // potentially move. Uses the same recursive logic as update scope
-    public ArrayList<Square> getMoves() {
+    public ArrayList<Square> getMoves() { // method arranged as such to comply with interface
         return getMoves(4, 4, new ArrayList<Square>());
     }
 
@@ -49,7 +49,7 @@ public class Bishop implements Piece {
             if (scope[y][x].isEmpty()) { // if there is not a piece at the current square which is "in the way"
                 getMoves(x + 1, y - 1, squares);
             }
-        } else if (y > 4 && x < 4) {
+        } else if (y < 4 && x < 4) {
             if (scope[y][x].isEmpty()) {
                 getMoves(x - 1, y - 1, squares);
             }
@@ -57,7 +57,7 @@ public class Bishop implements Piece {
             if (scope[y][x].isEmpty()) {
                 getMoves(x + 1, y + 1, squares);
             }
-        } else if (y < 4 && x < 4) {
+        } else if (y > 4 && x < 4) {
             if (scope[y][x].isEmpty()) {
                 getMoves(x - 1, y + 1, squares);
             }
