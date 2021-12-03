@@ -9,9 +9,9 @@ public class Knight implements Piece{
 	// constructor
 	public Knight(boolean isWhite, Square startingSquare) {
 		this.isWhite = isWhite;
-		this.scope = new Square[9][9];
+		this.scope = new Square[5][5];
 		startingSquare.setPiece(this);
-		this.updateScope(startingSquare, 4, 4);
+		this.updateScope(startingSquare, 2, 2);
 	}
 
 	// updates the scope of variable the square and x and y coordinates of the
@@ -19,16 +19,16 @@ public class Knight implements Piece{
 	private void updateScope(Square startingSquare, int x, int y) { // each call represents the path the Queen can take
 		if (startingSquare == null) { // if out of bounds of the board
 			return;
-		} else if (y < 4 && x > 4) { // if the path is up and to the right
+		} else if (y < 2 && x > 2) { // if the path is up and to the right
 			updateScope(startingSquare.right.right.up, x + 2, y - 1);
 			updateScope(startingSquare.right.up.up, x + 1, y - 2);
-		} else if (y < 4 && x < 4) { // if the path is up and to the left
+		} else if (y < 2 && x < 2) { // if the path is up and to the left
 			updateScope(startingSquare.left.left.up, x - 2, y - 1);
 			updateScope(startingSquare.left.up.up, x - 1, y - 2);
-		} else if (y > 4 && x > 4) { // if the path is down and to the right
+		} else if (y > 2 && x > 2) { // if the path is down and to the right
 			updateScope(startingSquare.right.right.down, x + 2, y + 1);
 			updateScope(startingSquare.right.down.down, x + 1, y + 2);
-		} else if (y > 4 && x < 4) { // if the path is down and to the left
+		} else if (y > 2 && x < 2) { // if the path is down and to the left
 			updateScope(startingSquare.left.left.down, x - 2, y - 1);
 			updateScope(startingSquare.left.down.down, x - 1, y - 2);
 		} else { // if the starting square is the piece's starting position
@@ -47,7 +47,7 @@ public class Knight implements Piece{
 	// Method returns an array of all the squares at which the piece can
 	// potentially move. Uses the same recursive logic as update scope
 	public ArrayList<Square> getMoves() { // method arranged as such to comply with interface
-		return getMoves(4, 4, new ArrayList<Square>()); // returns squares piece can move to (including illegal moves)
+		return getMoves(2, 2, new ArrayList<Square>()); // returns squares piece can move to (including illegal moves)
 	}
 
 	// Method returns an array of all the squares at which the piece can
@@ -55,22 +55,22 @@ public class Knight implements Piece{
 	private ArrayList<Square> getMoves(int x, int y, ArrayList<Square> squares) {
 		if (scope[y][x] == null) {
 			return squares;
-		} else if (y < 4 && x > 4) {
+		} else if (y < 2 && x > 2) {
 			if (scope[y][x].isEmpty()) { // if there is not a piece at the current square which is "in the way"
 				getMoves(x + 2, y - 1, squares);
 				getMoves(x + 1, y - 2, squares);
 			}
-		} else if (y < 4 && x < 4) {
+		} else if (y < 2 && x < 2) {
 			if (scope[y][x].isEmpty()) {
 				getMoves(x - 2, y - 1, squares);
 				getMoves(x - 1, y - 2, squares);
 			}
-		} else if (y > 4 && x > 4) {
+		} else if (y > 2 && x > 2) {
 			if (scope[y][x].isEmpty()) {
 				getMoves(x + 2, y + 1, squares);
 				getMoves(x + 1, y + 2, squares);
 			}
-		} else if (y > 4 && x < 4) {
+		} else if (y > 2 && x < 2) {
 			if (scope[y][x].isEmpty()) {
 				getMoves(x - 2, y + 1, squares);
 				getMoves(x - 1, y + 2, squares);
@@ -95,9 +95,9 @@ public class Knight implements Piece{
 	// moves the piece from the starting square to end square
 	// assumes move is valid
 	public void makeMove(Square endSquare) {
-		endSquare.setPiece(scope[4][4].piece());
-		scope[4][4].setPiece(null);
-		updateScope(endSquare, 4, 4); // or getMoves(4, 4, endSquare)
+		endSquare.setPiece(scope[2][2].piece());
+		scope[2][2].setPiece(null);
+		updateScope(endSquare, 2, 2); // or getMoves(2, 2, endSquare)
 	}
 
 	// getters and setters
