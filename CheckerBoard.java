@@ -262,7 +262,7 @@ public class CheckerBoard implements Board {
             int highestEvaluation = Integer.MAX_VALUE;
             Board bestNextBoard = null;
             for (Board board : miniMaxNext) {
-                if (miniMax.evaluateBoardMax(board, 6) < highestEvaluation) {
+                if (miniMax.evaluateBoardMax(board, 0) < highestEvaluation) {
                     bestNextBoard = board;
                 }
             }

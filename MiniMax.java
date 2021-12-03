@@ -5,12 +5,12 @@ public class MiniMax {
 	Board initial; // intial board
 	int depth; // depth of the tree
 	int turns; // number of turns
-	int depthLimit = 6; // limit of the depth
+	int depthLimit = 4; // limit of the depth
 
 	public int evaluateBoardMax(Board initial, int depth) {
 		ArrayList<Board> nextb = initial.getAllBoards();
 		int max = -999;
-		if (nextb == null || depth == depthLimit) {
+		if (nextb == null || depth >= depthLimit) {
 			return initial.evaluateBoard();
 		}
 		for (Board b : nextb) {
@@ -26,7 +26,7 @@ public class MiniMax {
 	public int evaluateBoardMin(Board initial, int depth) {
 		ArrayList<Board> nextb = initial.getAllBoards();
 		int min = 999;
-		if (nextb == null || depth == depthLimit) {
+		if (nextb == null || depth >= depthLimit) {
 			return initial.evaluateBoard();
 		}
 		for (Board b : nextb) {
