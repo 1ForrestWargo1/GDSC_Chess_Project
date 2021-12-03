@@ -19,18 +19,6 @@ public class Knight implements Piece{
 	private void updateScope(Square startingSquare, int x, int y) { // each call represents the path the Queen can take
 		if (startingSquare == null) { // if out of bounds of the board
 			return;
-		} else if (y < 2 && x > 2) { // if the path is up and to the right
-			updateScope(startingSquare.right.right.up, x + 2, y - 1);
-			updateScope(startingSquare.right.up.up, x + 1, y - 2);
-		} else if (y < 2 && x < 2) { // if the path is up and to the left
-			updateScope(startingSquare.left.left.up, x - 2, y - 1);
-			updateScope(startingSquare.left.up.up, x - 1, y - 2);
-		} else if (y > 2 && x > 2) { // if the path is down and to the right
-			updateScope(startingSquare.right.right.down, x + 2, y + 1);
-			updateScope(startingSquare.right.down.down, x + 1, y + 2);
-		} else if (y > 2 && x < 2) { // if the path is down and to the left
-			updateScope(startingSquare.left.left.down, x - 2, y - 1);
-			updateScope(startingSquare.left.down.down, x - 1, y - 2);
 		} else { // if the starting square is the piece's starting position
 			updateScope(startingSquare.right.right.up, x + 2, y - 1);
 			updateScope(startingSquare.right.up.up, x + 1, y - 2);
@@ -55,26 +43,6 @@ public class Knight implements Piece{
 	private ArrayList<Square> getMoves(int x, int y, ArrayList<Square> squares) {
 		if (scope[y][x] == null) {
 			return squares;
-		} else if (y < 2 && x > 2) {
-			if (scope[y][x].isEmpty()) { // if there is not a piece at the current square which is "in the way"
-				getMoves(x + 2, y - 1, squares);
-				getMoves(x + 1, y - 2, squares);
-			}
-		} else if (y < 2 && x < 2) {
-			if (scope[y][x].isEmpty()) {
-				getMoves(x - 2, y - 1, squares);
-				getMoves(x - 1, y - 2, squares);
-			}
-		} else if (y > 2 && x > 2) {
-			if (scope[y][x].isEmpty()) {
-				getMoves(x + 2, y + 1, squares);
-				getMoves(x + 1, y + 2, squares);
-			}
-		} else if (y > 2 && x < 2) {
-			if (scope[y][x].isEmpty()) {
-				getMoves(x - 2, y + 1, squares);
-				getMoves(x - 1, y + 2, squares);
-			}
 		} else {
 			getMoves(x + 2, y - 1, squares);
 			getMoves(x + 1, y - 2, squares);
