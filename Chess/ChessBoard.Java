@@ -6,7 +6,7 @@ public ChessBoard implements Board {
     private boolean whiteInCheck;
     
     public ArrayList<Board> getAllBoards() {
-
+        
     }
 
     public int evaluateBoard(); {
