@@ -5,6 +5,7 @@ public class CheckerBoard implements Board {
     private Man[][] board; // 2D array of board
     private boolean blackTurn;
     private int moveCount;
+    MiniMax miniMax = new MiniMax();
 
     public CheckerBoard() { // default constructor
         board = new Man[8][8];
@@ -202,23 +203,23 @@ public class CheckerBoard implements Board {
 
     public int evaluateBoard() { // evaluates the board for the minimax algorithm
         int blackCount = 0;
-        int whiteCount = 0;
+        int redCount = 0;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; i < board[i].length; j++) {
                 if (board[i][j] != null) {
                     if (board[i][j].isBlack) {
                         blackCount++;
                     } else {
-                        whiteCount++;
+                        redCount++;
                     }
                 }
             }
         }
         if (blackCount == 0)
             return -13; // if the game is won return 13 or -13
-        else if (whiteCount == 0)
+        else if (redCount == 0)
             return 13;
-        return blackCount - whiteCount; // otherwise return the difference in the number of pieces
+        return blackCount - redCount; // otherwise return the difference in the number of pieces
     }
 
     public void runGame() {
@@ -250,8 +251,29 @@ public class CheckerBoard implements Board {
             if (this.isOver()) {
                 if (evaluateBoard() > 0) {
                     System.out.println("Red won");
+                    break;
                 } else {
                     System.out.println("White won");
+                    break;
+                }
+            }
+
+            ArrayList<Board> miniMaxNext = getAllBoards();
+            int highestEvaluation = Integer.MAX_VALUE;
+            Board bestNextBoard = null;
+            for (Board board : miniMaxNext) {
+                if (miniMax.evaluateBoardMax(board, 6) < highestEvaluation) {
+                    bestNextBoard = board;
+                }
+            }
+            this.makeMove((CheckerBoard) bestNextBoard);
+            if (this.isOver()) {
+                if (evaluateBoard() > 0) {
+                    System.out.println("Red won");
+                    break;
+                } else {
+                    System.out.println("White won");
+                    break;
                 }
             }
 
@@ -267,6 +289,7 @@ public class CheckerBoard implements Board {
     public static void main(String args[]) {
         CheckerBoard board = new CheckerBoard();
         board.runGame();
+
     }
 
 }
