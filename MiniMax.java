@@ -1,37 +1,35 @@
+import java.util.ArrayList;
 
 public class MiniMax {
-	
-	chessBoard initial; //intial board
-	int depth; //depth of the tree
-	int turns; //number of turns
-	int depthLimit = 6; //limit of the depth
-	
-	
-	
 
-	public int evaluateBoardMax(chessBoard initial, int depth) {
-		chessBoard[] nextb = initial.getBoards();
+	Board initial; // intial board
+	int depth; // depth of the tree
+	int turns; // number of turns
+	int depthLimit = 4; // limit of the depth
+
+	public int evaluateBoardMax(Board initial, int depth) {
+		ArrayList<Board> nextb = initial.getAllBoards();
 		int max = -999;
-		if (nextb == null || depth == depthLimit) {
-			return initial.evaluateScore();
+		if (nextb == null || depth >= depthLimit) {
+			return initial.evaluateBoard();
 		}
-		for(chessBoard b: nextb) {
+		for (Board b : nextb) {
 			int holder = evaluateBoardMin(b, depth + 1);
 			if (max <= holder) {
 				max = holder;
 			}
 		}
 		return max;
-		
+
 	}
-	
-	public int evaluateBoardMin(chessBoard initial, int depth) {
-		chessBoard[] nextb = initial.getBoards();
+
+	public int evaluateBoardMin(Board initial, int depth) {
+		ArrayList<Board> nextb = initial.getAllBoards();
 		int min = 999;
-		if (nextb == null || depth == depthLimit) {
-			return initial.evaluateScore();
+		if (nextb == null || depth >= depthLimit) {
+			return initial.evaluateBoard();
 		}
-		for(chessBoard b: nextb) {
+		for (Board b : nextb) {
 			int holder = evaluateBoardMax(b, depth + 1);
 			if (min >= holder) {
 				min = holder;
@@ -39,6 +37,5 @@ public class MiniMax {
 		}
 		return min;
 	}
-	
 
 }
