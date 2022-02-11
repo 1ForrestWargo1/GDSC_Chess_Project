@@ -26,11 +26,14 @@ def warp_crop_scale(image, points_for_warp):
         for j in range(0, 8):
             x = i * l
             y = j * l
-            row.append(img_scaled[x:x+l, y:y+l])
+            tmpImg = img_scaled[x:x+l, y:y+l]
+            row.append(tmpImg)
+            cv2.imwrite("./sliced-pieces/piece-" + str(i) + "-" + str(j) + ".png", tmpImg)
         images_separated.append(row)
 
-    cv2.imshow("Original", image)
-    cv2.imshow("normalized", img_scaled)
+    # cv2.imshow("Original", image)
+
+    cv2.imwrite("./normalized.png", img_scaled)
 
     # show each of the split images after a keypress
     # row_number = 0
@@ -43,7 +46,7 @@ def warp_crop_scale(image, points_for_warp):
     #     row_number += 1
     #     col_number = 0
 
-    cv2.waitKey()
+    # cv2.waitKey()
     
     print('done')
     return
