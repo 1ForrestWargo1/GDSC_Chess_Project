@@ -48,5 +48,5 @@ def warp_crop_scale(image, points_for_warp):
 
     # cv2.waitKey()
     
-    print('done')
+    # print('done')
     return

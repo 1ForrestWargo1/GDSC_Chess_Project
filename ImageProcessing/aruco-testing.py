@@ -1,6 +1,5 @@
 import cv2
 from cv2 import aruco
-import numpy
 import math
 
 
@@ -14,11 +13,11 @@ def find_closest_point_to(target, points):
     for point in points:
         if min_corner == [] or distance(point, target) < distance(min_corner, target):
             min_corner = list(point)
-    print('found min corner', min_corner)
+    # print('found min corner', min_corner)
     min_corner = [int(x) for x in min_corner]
     return min_corner
 
-frame = cv2.imread('aruco-img/6.png')
+frame = cv2.imread('aruco-img/10.png')
 
 #Load the dictionary that was used to generate the markers.
 dictionary = aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
@@ -47,10 +46,10 @@ tl = find_closest_point_to((w,h), good_lookin_points)
 
 points_for_warp = [br, bl, tr, tl]
 
-print('points for warp \n', points_for_warp)
+# print('points for warp \n', points_for_warp)
 
-for point in points_for_warp:
-    frame = cv2.circle(frame, point, radius=2, color=(0, 0, 255), thickness=20)
+# for point in points_for_warp:
+#     frame = cv2.circle(frame, point, radius=2, color=(0, 0, 255), thickness=20)
 
 # cv2.imshow("result", frame);
 # cv2.waitKey();
