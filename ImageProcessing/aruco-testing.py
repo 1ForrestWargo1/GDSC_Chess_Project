@@ -17,7 +17,9 @@ def find_closest_point_to(target, points):
     min_corner = [int(x) for x in min_corner]
     return min_corner
 
-frame = cv2.imread('aruco-img/10.png')
+frame = cv2.imread('aruco-img/12.jpeg')
+
+print('read image')
 
 #Load the dictionary that was used to generate the markers.
 dictionary = aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
@@ -32,6 +34,10 @@ image_center = (frame.shape[1] / 2, frame.shape[0] / 2)
 good_lookin_points = []
 for aruco_marker in markerCorners:
     good_lookin_points.append(find_closest_point_to(image_center, aruco_marker[0]))
+
+print('found points: ', len(good_lookin_points))
+
+print(good_lookin_points)
 
 min_dist = frame.shape[0] * frame.shape[1]
 min_marker = []
