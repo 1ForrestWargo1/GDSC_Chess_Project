@@ -7,9 +7,9 @@ class Board(BaseModel):
     arr: list[list[int]]
 
 class State(BaseModel):
-    nextMoves: list[Board]
-    nextBoard: int
-    curBoard: Optional[Board]
+    gameType: str 
+    nextBoard: Board # need to add board equivalency function for checkers
+    curBoard: Board
 
 app = FastAPI()
 
@@ -17,13 +17,18 @@ app = FastAPI()
 @app.post("/")
 async def play_move(state: State):
     # parse state parameter
-    # run java program and pass in parsed state object
+    # check game type
+    # if chess 
+        # take current board, pass into AI and generate next board
 
-    nextMoves = 0
+    # else if checkers 
+        # take next board, check if valid, then currentBoard = nextBoard
+        # take current board, pass into AI and generate next board
+    # (run java program and pass in parsed state object?)
+
+    # create new state (based off java process?) and send back
     nextBoard = 0
     curBoard = 0
-    # create new state and send back
-    
 
-    new_state = State(nextMoves = nextMoves, nextBoard = nextBoard, curBoard = curBoard)
-    return {"message": "Hello World"}
+    new_state = State(nextBoard = nextBoard, curBoard = curBoard)
+    return {"State": new_state}
