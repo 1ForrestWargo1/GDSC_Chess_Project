@@ -34,8 +34,27 @@ $(document).on("click", function (event) {
         if (selectedPiece !== null && selectedPiece.id !== id) { //if one piece selected & then select other cell
             refreshCells(selectedPiece);
         }
+        
+        var chess = {};
+        chess.chessType = selectedPiece.id.split("-")[2]; //get moving chess type 
+        chess.oldPosition = selectedPiece.currentPosition.split("-")[2]; //get the chess position before moving
+
         move(selectedPiece, clickedElement); //if previously selected a piece and now select a cell then selected piece move to selected cell
 
+        chess.newPosition = selectedPiece.currentPosition.split("-")[2]; //get the chess position after moving
+        
+        $.ajax({
+            url: "movingChess",
+            type: "post",
+            data: JSON.stringify(chess), //post chess type, old position, new position
+            dataType: "json",
+            success: function (data){
+                // TASK: receive data from backend, process JSON, move chess according to the data
+            },
+            error: function (e){
+                alert("request failed")
+            },
+        })
     } else if (id !== undefined && id.includes("p")) { //if clicked a piece
         if (selectedPiece !== null && selectedPiece.id !== id) { //if one piece selected & then select other piece
             refreshCells(selectedPiece);
@@ -582,7 +601,7 @@ function move(obj, cell) {
             obj.isFirstMove = false;
         }
     }
-    isKingChecked(obj.type === "white" ? "black" : "white");
+    //isKingChecked(obj.type === "white" ? "black" : "white"); FIXME
     obj.positionsToBeMoved = [];
 }
 
@@ -669,8 +688,8 @@ function isObstaclesFound(obj, nextCell) {
     }
     return true;
 }
-
-/*function isKingChecked(type) {
+/*
+function isKingChecked(type) {
     var pos;
     if (type === "white") {
         pos = whiteKing.currentPosition;
@@ -698,4 +717,5 @@ function isObstaclesFound(obj, nextCell) {
 
 function inspectNextCell(nextCell) {
     return $(nextCell).children('span').attr('id');
-}*/
+}
+*/

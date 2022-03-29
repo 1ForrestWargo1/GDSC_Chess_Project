@@ -42,9 +42,9 @@ span[id*=p-]{
     background-color: yellow !important;
 }
 
-/*.kill-cell-color{
+.kill-cell-color{
     background-color: red !important;
-}*/
+}
 
 #message-div{
     position: absolute;
@@ -54,11 +54,11 @@ span[id*=p-]{
     height: 200px;
 }
 
-/*.opposite-side-msg{
+.opposite-side-msg{
     font-size: 30px;
     text-align: center;
-}*/
+}
 
-/*.color-body-white{
+.color-body-white{
     background-color: white !important;
-}*/
+}
