@@ -1,21 +1,18 @@
 from typing import Optional
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-class Board(BaseModel):
-    arr: list[list[int]]
 
 class State(BaseModel):
     gameType: str 
-    nextBoard: Board # need to add board equivalency function for checkers
-    curBoard: Board
+    nextBoard: list[list[int]] # need to add board equivalency function for checkers
+    curBoard: list[list[int]]
 
 app = FastAPI()
 
 
 @app.post("/")
-async def play_move(state: State):
+async def process_move(state: State):
     # parse state parameter
     # check game type
     # if chess 
@@ -31,4 +28,14 @@ async def play_move(state: State):
     curBoard = 0
 
     new_state = State(nextBoard = nextBoard, curBoard = curBoard)
+
     return {"State": new_state}
+    # full JSON format:
+    # { 
+    #   "State": { 
+    #       gameType: str,
+    #       nextBoard: int[][], (should this be optional)
+    #       curBoard: int[][],
+    #    }
+    # }
+    
