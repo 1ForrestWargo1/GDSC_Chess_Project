@@ -1,0 +1,10 @@
+----------Classes/Methods Of Interest----------
+
+Board:
+find_move()
+is_legal()
+legal_moves
+
+Move (static fields):
+copy()
+uci()
