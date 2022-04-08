@@ -18,9 +18,9 @@ async def process_move(state: State):
     # if the game is chess
     if state.gameType == "Chess": 
         newStateType = "Chess"
-        # take current board, pass into AI and generate next board
-          # take next board, check if valid, then currentBoard = nextBoard
-          # take current board, pass into AI and generate next board
+        # convert to fen notation 
+        # pass into engine/minimax 
+        # choose next move
         state.nextBoard
 
     # else if the game is checkers
