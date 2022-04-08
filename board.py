@@ -2,6 +2,7 @@
 """
 
 from __future__ import annotations
+import math
 import chess
 
 class Board(chess.Board): #extends chess.Board class
@@ -21,17 +22,35 @@ class Board(chess.Board): #extends chess.Board class
 					temp_board.push(curr_move)
 					next_boards.append(temp_board)
 		return next_boards
+	
+	def sigmoid(x) -> float:
+		return 1 / (1 + math.exp(-x))
 
-	def evaluate_board(self) -> int:
-		pass
+	def evaluate_board(self) -> float:
+		if self.is_checkmate(): #TODO: unclear which is in checkmate, need to figure out
+			return -1
+		curr_piece = None
+		sum_score = 0
+		score_map = {chess.KING: 10000, chess.QUEEN: 9, chess.ROOK: 5, chess.BISHOP: 3, chess.KNIGHT: 3, chess.PAWN: 1}
+		for square in chess.SQUARES:
+			curr_piece = self.piece_at(square)
+			if curr_piece == None:
+				continue
+			if curr_piece.color == chess.WHITE: #TODO: assume white is ours, other colors are opponents
+				sum_score += score_map[curr_piece.piece_type]
+			else:
+				sum_score -= score_map[curr_piece.piece_type]
+		return Board.sigmoid(sum_score)
+		
 
 
 def main():
 	"""Test function, for debug use
 	"""
 	b = Board()
-	for next_b in b.get_all_boards():
-		print(next_b, end = '\n\n')
+	print(b.evaluate_board())
+	#for next_b in b.get_all_boards():
+	#	print(next_b, end = '\n\n')
 
 if __name__ == '__main__':
 	main()
