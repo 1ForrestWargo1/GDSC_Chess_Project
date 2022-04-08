@@ -53,6 +53,18 @@
   CSS['white'] = 'white-1e1d7'
 
   var board = START_POSITION
+  var CONVERT_TABLE_CHESS = {wP: 1, wN: 3, wB: 4, wR: 6, wQ: 8, wK: 9,
+                             bP: -1, bN: -3, bB: -4, bR: -6, bQ: -8, bK: -9}
+  var CONVERT_TABLE_ALPHA = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8}
+
+   /*
+        pawn: 1
+        knight: 3
+        bishop: 4
+        rock: 6
+        queen: 8
+        king: 9
+        */
 
 
   // ---------------------------------------------------------------------------
@@ -1416,41 +1428,63 @@
       } else if (action === 'trash') {
         trashDraggedPiece()
       } else if (action === 'drop') {
-        var oldBoard = { ...board }
-        board[location] = board[draggedPieceSource]
-        delete board[draggedPieceSource]
-
-        dropDraggedPieceOnSquare(location)
-
-        // FIXME: haven't finished this part
-        /*if (connectBackend(oldBoard, board)) {
-          board_old = null
+        if(draggedPieceSource !== location){
+          var oldBoard = { ...board }
+          board[location] = board[draggedPieceSource]
+          delete board[draggedPieceSource]
+        
+          connectBackend(oldBoard, board)
           dropDraggedPieceOnSquare(location)
-        } else {
-          snapbackDraggedPiece()
-        }*/
+          // FIXME: haven't finished this part
+          /*if (connectBackend(oldBoard, board)) {
+            board_old = null
+            dropDraggedPieceOnSquare(location)
+          } else {
+            snapbackDraggedPiece()
+          }*/
+        } else{
+          dropDraggedPieceOnSquare(location)
+        }
       }
     }
 
     // TODO: talk with backend and determine the format
-    function connectBackend(oldBoard, newBoard) {
-      var boards = {};
-      boards.old = oldBoard
-      boards.new = newBoard
+    function connectBackend(board1, board2) {
+      var curBoard = new Array(8)
+      var newBoard = new Array(8)
+
+      for (var i = 0; i < curBoard.length; i++){
+        curBoard[i] = [0,0,0,0,0,0,0,0]
+        newBoard[i] = [0,0,0,0,0,0,0,0]
+      }
+
+      for(var data in board1){
+        curBoard[parseInt(data.charAt(1))-1][CONVERT_TABLE_ALPHA[data.charAt(0)]-1] = CONVERT_TABLE_CHESS[board1[data]]
+      }
+
+      for(var data in board2){
+        newBoard[parseInt(data.charAt(1))-1][CONVERT_TABLE_ALPHA[data.charAt(0)]-1] = CONVERT_TABLE_CHESS[board2[data]]
+      }
+
+      console.log(curBoard)
+      console.log(newBoard)
+
+      var data_post = {};
+      data_post.type = "chess"
+      data_post.cur = curBoard
+      data_post.new = newBoard
+
       $.ajax({
         url: "chessBoard",
         type: "post",
-        data: JSON.stringify(boards),
+        data: JSON.stringify(data_post),
         dataType: "json",
-        success: function (data) {
-          board = JSON.parse(data) // set of 8 sets
-          for (let row of board) {
-            for (let cell of row) {
-
-            }
-          }
+        success: function (data_rec) {
+          board = JSON.parse(data_rec) // set of 8 sets
+          console.log("Success")
         },
         error: function (e) {
+          console.log("request failed")
           //alert("request failed")
         },
       })
