@@ -52,19 +52,21 @@
   CSS['square'] = 'square-55d63'
   CSS['white'] = 'white-1e1d7'
 
-  var board = START_POSITION
-  var CONVERT_TABLE_CHESS = {wP: 1, wN: 3, wB: 4, wR: 6, wQ: 8, wK: 9,
-                             bP: -1, bN: -3, bB: -4, bR: -6, bQ: -8, bK: -9}
-  var CONVERT_TABLE_ALPHA = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8}
+  var board
+  var CONVERT_TABLE_CHESS = {
+    wP: 1, wN: 3, wB: 4, wR: 6, wQ: 8, wK: 9,
+    bP: -1, bN: -3, bB: -4, bR: -6, bQ: -8, bK: -9
+  }
+  var CONVERT_TABLE_ALPHA = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8 }
 
-   /*
-        pawn: 1
-        knight: 3
-        bishop: 4
-        rock: 6
-        queen: 8
-        king: 9
-        */
+  /*
+       pawn: 1
+       knight: 3
+       bishop: 4
+       rock: 6
+       queen: 8
+       king: 9
+       */
 
 
   // ---------------------------------------------------------------------------
@@ -1428,51 +1430,51 @@
       } else if (action === 'trash') {
         trashDraggedPiece()
       } else if (action === 'drop') {
-        if(draggedPieceSource !== location){
-          var oldBoard = { ...board }
-          board[location] = board[draggedPieceSource]
-          delete board[draggedPieceSource]
-        
-          connectBackend(oldBoard, board)
-          dropDraggedPieceOnSquare(location)
-          // FIXME: haven't finished this part
-          /*if (connectBackend(oldBoard, board)) {
-            board_old = null
-            dropDraggedPieceOnSquare(location)
-          } else {
-            snapbackDraggedPiece()
-          }*/
-        } else{
+        if (draggedPieceSource !== location) {
+          var curBoard = { ...board }
+          var newBoard = { ...board }
+          newBoard[location] = newBoard[draggedPieceSource]
+          delete newBoard[draggedPieceSource]
+          connectBackend(curBoard, newBoard, draggedPieceSource, location)
+        } else {
+          // player returns the chess to the old position 
           dropDraggedPieceOnSquare(location)
         }
       }
     }
 
     // TODO: talk with backend and determine the format
-    function connectBackend(board1, board2) {
+    function connectBackend(board1, board2, location1, location2) {
       var curBoard = new Array(8)
       var newBoard = new Array(8)
+      var curLocation = location1
+      var newLocation = location2
 
-      for (var i = 0; i < curBoard.length; i++){
-        curBoard[i] = [0,0,0,0,0,0,0,0]
-        newBoard[i] = [0,0,0,0,0,0,0,0]
+      for (var i = 0; i < curBoard.length; i++) {
+        curBoard[i] = [0, 0, 0, 0, 0, 0, 0, 0]
+        newBoard[i] = [0, 0, 0, 0, 0, 0, 0, 0]
       }
 
-      for(var data in board1){
-        curBoard[parseInt(data.charAt(1))-1][CONVERT_TABLE_ALPHA[data.charAt(0)]-1] = CONVERT_TABLE_CHESS[board1[data]]
+      if (JSON.stringify(board1) !== JSON.stringify(START_POSITION)) {
+        for (var data in board1) {
+          curBoard[parseInt(data.charAt(1)) - 1][CONVERT_TABLE_ALPHA[data.charAt(0)] - 1] = CONVERT_TABLE_CHESS[board1[data]]
+        }
       }
 
-      for(var data in board2){
-        newBoard[parseInt(data.charAt(1))-1][CONVERT_TABLE_ALPHA[data.charAt(0)]-1] = CONVERT_TABLE_CHESS[board2[data]]
+      for (var data in board2) {
+        newBoard[parseInt(data.charAt(1)) - 1][CONVERT_TABLE_ALPHA[data.charAt(0)] - 1] = CONVERT_TABLE_CHESS[board2[data]]
       }
 
       console.log(curBoard)
-      console.log(newBoard)
+      console.log(curLocation)
+      console.log(newLocation)
+
 
       var data_post = {};
       data_post.type = "chess"
-      data_post.cur = curBoard
-      data_post.new = newBoard
+      data_post.curBoard = curBoard
+      data_post.curLocation = curLocation
+      data_post.newLocation = newLocation
 
       $.ajax({
         url: "chessBoard",
@@ -1480,12 +1482,28 @@
         data: JSON.stringify(data_post),
         dataType: "json",
         success: function (data_rec) {
-          board = JSON.parse(data_rec) // set of 8 sets
           console.log("Success")
+          if (JSON.stringify(curBoard) !== data_rec) {
+            // the move of player is valid
+            // drop the chess of player
+            dropDraggedPieceOnSquare(location2)
+
+            // get info about the moving chess of computer (could you also return the original and new location of moving piece)
+
+
+            // move and drop the chess of computer
+            beginDraggingPiece(source, piece, x, y)
+
+
+            // TODO: update the board var
+          } else {
+            // the move of player is invalid
+            snapbackDraggedPiece()
+          }
         },
         error: function (e) {
           console.log("request failed")
-          //alert("request failed")
+          dropDraggedPieceOnSquare(location2) // FIXME: delete this line when testing
         },
       })
     }
@@ -1593,6 +1611,7 @@
 
       // start position
       if (isString(position) && position.toLowerCase() === 'start') {
+        board = { ...START_POSITION }
         position = deepCopy(START_POSITION)
       }
 
